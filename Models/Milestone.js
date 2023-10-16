@@ -3,18 +3,20 @@ const mongoose = require('mongoose');
 const MilestoneSchema = new mongoose.Schema({
   topic: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'LearningTopic', // Reference to the Learning Topic model
+    ref: 'Topic', // Reference to the Learning Topic model
     required: true,
   },
   done: {
     type: Boolean,
     default: false,
   },
+  order: {
+    type : Number,
+    required: true
+  },
   description: String
 });
 
-const Milestone = mongoose.model('Milestone', MilestoneSchema);
-module.exports = MilestoneSchema;
-
+module.exports = mongoose.model('Milestone', MilestoneSchema);
 
 
