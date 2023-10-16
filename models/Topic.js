@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const topicSchema = new mongoose.Schema({
   topicid: {
     type: String, 
-    required: true,
     unique: true, 
   },
   topicname: {

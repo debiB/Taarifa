@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Topic = require('./Topic.js'); 
+const Topic = require('../models/Topic');
 // GET all topics
-router.get('/topics', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const topics = await Topic.find();
     res.json(topics);
@@ -11,7 +11,7 @@ router.get('/topics', async (req, res) => {
   }
 });
 
-router.get('/topics/:topicname', async (req, res) => {
+router.get('/:topicname', async (req, res) => {
     try {
       const topic = await Topic.findOne({ topicname: req.params.topicname });
   
@@ -25,10 +25,10 @@ router.get('/topics/:topicname', async (req, res) => {
     }
   });
 
-router.post('/topics', async (req, res) => {
+router.post('/', async (req, res) => {
   const topic = new Topic({
-    topicname: req.body.topicname,
-    username: req.body.username,
+    topicname: req.body.topicname
+    // username: req.body.username,
   });
 
   try {
@@ -40,7 +40,7 @@ router.post('/topics', async (req, res) => {
 });
 
 // UPDATE a topic
-router.patch('/topics/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
     const topic = await Topic.findById(req.params.id);
 
@@ -52,9 +52,9 @@ router.patch('/topics/:id', async (req, res) => {
       topic.topicname = req.body.topicname;
     }
 
-    if (req.body.username) {
-      topic.username = req.body.username;
-    }
+    // if (req.body.username) {
+    //   topic.username = req.body.username;
+    // }
 
     const updatedTopic = await topic.save();
     res.json(updatedTopic);
@@ -64,15 +64,14 @@ router.patch('/topics/:id', async (req, res) => {
 });
 
 // DELETE a topic
-router.delete('/topics/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const topic = await Topic.findById(req.params.id);
 
     if (!topic) {
       return res.status(404).json({ message: 'Topic not found' });
     }
-
-    await topic.remove();
+    await Topic.deleteOne({ _id: req.params.id }); 
     res.json({ message: 'Topic deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
