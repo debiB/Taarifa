@@ -3,17 +3,21 @@ const app = express();
 const mongoose = require('mongoose');
 const Topic = require('./models/Topic'); 
 const Milestone = require('./models/Milestone'); 
+const Resources = require('./models/Resources'); 
 const TopicController = require('./controllers/TopicController');
 const MilestoneController = require('./controllers/MilestoneController');
+const ResourcesController = require('./controllers/ResourcesController');
 
-// express.use(expressjson());
+app.use(express.json());
+
 
 
 const PORT = process.env.PORT || 4111;
 app.listen(PORT, console.log("Server don start for port: " + PORT));
 app.use(express.json());
-app.use("/topic", TopicController);
+app.use("/topics", TopicController);
 app.use("/milestone", MilestoneController);
+app.use("/resources", ResourcesController);
 
 // const {getLearningPath, getResources} = require('./ai_services/ai_service');
 // const time = "days";

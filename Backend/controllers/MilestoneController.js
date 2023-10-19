@@ -8,6 +8,7 @@ router.get('/', async (req, res) => {
   try {
     const milestones = await Milestone.find().sort({order : 1});
     res.json(milestones);
+    console.log(milestones)
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -32,7 +33,8 @@ router.post('/', async (req, res) => {
   const milestone = new Milestone({
     topic: req.body.topic,
     order:  req.body.order,
-    description: req.body.description
+    description: req.body.description,
+    resources: req.body.resources,
   });
 
   try {

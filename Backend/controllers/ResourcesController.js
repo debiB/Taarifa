@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Resource = require('./Resources'); 
+const Resource = require('../models/Resources');
 
-
-exports.getAllResources = (req, res) => {
+router.get('/', async (req, res) => {
   Resource.find()
     .then((resources) => {
       res.json(resources);
@@ -11,10 +10,9 @@ exports.getAllResources = (req, res) => {
     .catch((error) => {
       res.status(500).json({ error: 'Internal server error' });
     });
-};
+});
 
-
-exports.createResource = (req, res) => {
+router.post('/', async (req, res) => {
   const { topicid, resourceType, resource } = req.body;
   const newResource = new Resource({ topicid, resourceType, resource });
 
@@ -26,11 +24,10 @@ exports.createResource = (req, res) => {
     .catch((error) => {
       res.status(400).json({ error: 'Bad request' });
     });
-};
+});
 
-
-exports.getResourcesByTopic = (req, res) => {
-  const topicId = req.params.topicId;
+router.get('/:topicid', async (req, res) => {
+  const topicId = req.params.topicid;
 
   Resource.find({ topicid: topicId })
     .then((resources) => {
@@ -39,11 +36,10 @@ exports.getResourcesByTopic = (req, res) => {
     .catch((error) => {
       res.status(500).json({ error: 'Internal server error' });
     });
-};
+});
 
-
-exports.updateResource = (req, res) => {
-  const resourceId = req.params.resourceId;
+router.patch('/:id', async (req, res) => {
+  const resourceId = req.params.id;
   const { topicid, resourceType, resource } = req.body;
 
   Resource.findByIdAndUpdate(resourceId, { topicid, resourceType, resource }, { new: true })
@@ -53,11 +49,10 @@ exports.updateResource = (req, res) => {
     .catch((error) => {
       res.status(400).json({ error: 'Bad request' });
     });
-};
+});
 
-
-exports.deleteResource = (req, res) => {
-  const resourceId = req.params.resourceId;
+router.delete('/:id', async (req, res) => {
+  const resourceId = req.params.id;
 
   Resource.findByIdAndRemove(resourceId)
     .then((resource) => {
@@ -66,4 +61,6 @@ exports.deleteResource = (req, res) => {
     .catch((error) => {
       res.status(400).json({ error: 'Bad request' });
     });
-};
+});
+
+module.exports = router;

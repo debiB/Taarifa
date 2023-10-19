@@ -11,12 +11,14 @@ const MilestoneSchema = new mongoose.Schema({
     default: false,
   },
   order: {
-    type : Number,
-    required: true
+    type: Number,
+    required: true,
   },
-  description: String
+  description: String,
+  resources: [
+ String
+      //required: true,
+  ],
 });
 
 module.exports = mongoose.model('Milestone', MilestoneSchema);
-
-

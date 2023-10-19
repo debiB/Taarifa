@@ -2,15 +2,15 @@ const express = require('express');
 const router = express.Router();
 const topicController = require('../controllers/TopicController'); 
 
-router.get('/topics', topicController.getAllTopics);
+router.get('/', topicController.getAllTopics);
 
-router.get('/topics/:topicname', topicController.getTopicByName);
+router.get('/:topicname', topicController.getTopicByName);
 
 
-router.post('/topics', topicController.createTopic);
+router.post('/', topicController.createTopic);
 
-router.patch('/topics/:id', topicController.updateTopic);
+router.patch('/:id', topicController.updateTopic);
 
-router.delete('/topics/:id', topicController.deleteTopic);
+router.delete('/:id', topicController.deleteTopic);
 
 module.exports = router;
